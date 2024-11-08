@@ -229,31 +229,30 @@ class TTSModel:
         intonation_scale: float = 1.0,
     ) -> tuple[int, NDArray[Any]]:
         """
-        テキストから音声を合成する。
+        텍스트로 음성을 합성합니다.
 
         Args:
-            text (str): 読み上げるテキスト
-            language (Languages, optional): 言語. Defaults to Languages.JP.
-            speaker_id (int, optional): 話者 ID. Defaults to 0.
-            reference_audio_path (Optional[str], optional): 音声スタイルの参照元の音声ファイルのパス. Defaults to None.
-            sdp_ratio (float, optional): DP と SDP の混合比。0 で DP のみ、1で SDP のみを使用 (値を大きくするとテンポに緩急がつく). Defaults to DEFAULT_SDP_RATIO.
-            noise (float, optional): DP に与えられるノイズ. Defaults to DEFAULT_NOISE.
-            noise_w (float, optional): SDP に与えられるノイズ. Defaults to DEFAULT_NOISEW.
-            length (float, optional): 生成音声の長さ（話速）のパラメータ。大きいほど生成音声が長くゆっくり、小さいほど短く早くなる。 Defaults to DEFAULT_LENGTH.
-            line_split (bool, optional): テキストを改行ごとに分割して生成するかどうか (True の場合 given_phone/given_tone は無視される). Defaults to DEFAULT_LINE_SPLIT.
-            split_interval (float, optional): 改行ごとに分割する場合の無音 (秒). Defaults to DEFAULT_SPLIT_INTERVAL.
-            assist_text (Optional[str], optional): 感情表現の参照元の補助テキスト. Defaults to None.
-            assist_text_weight (float, optional): 感情表現の補助テキストを適用する強さ. Defaults to DEFAULT_ASSIST_TEXT_WEIGHT.
-            use_assist_text (bool, optional): 音声合成時に感情表現の補助テキストを使用するかどうか. Defaults to False.
-            style (str, optional): 音声スタイル (Neutral, Happy など). Defaults to DEFAULT_STYLE.
-            style_weight (float, optional): 音声スタイルを適用する強さ. Defaults to DEFAULT_STYLE_WEIGHT.
-            given_phone (Optional[list[int]], optional): 読み上げテキストの読みを表す音素列。指定する場合は given_tone も別途指定が必要. Defaults to None.
-            given_tone (Optional[list[int]], optional): アクセントのトーンのリスト. Defaults to None.
-            pitch_scale (float, optional): ピッチの高さ (1.0 から変更すると若干音質が低下する). Defaults to 1.0.
-            intonation_scale (float, optional): 抑揚の平均からの変化幅 (1.0 から変更すると若干音質が低下する). Defaults to 1.0.
+            text (str): 읽어야 할 텍스트
+            language (Languages, optional): 언어. 기본값은 Languages.JP입니다.
+            speaker_id (int, optional): 화자 ID. 기본값은 0입니다.
+            reference_audio_path (Optional[str], optional): 음성 스타일의 참조 원본 음성 파일 경로. 기본값은 None입니다.
+            sdp_ratio (float, optional): DP와 SDP의 혼합 비율입니다. 0은 DP만 사용하고, 1은 SDP만 사용합니다 (값을 높이면 템포에 강약이 생깁니다). 기본값은 DEFAULT_SDP_RATIO입니다.
+            noise (float, optional): DP에 적용되는 노이즈입니다. 기본값은 DEFAULT_NOISE입니다.
+            noise_w (float, optional): SDP에 적용되는 노이즈입니다. 기본값은 DEFAULT_NOISEW입니다.
+            length (float, optional): 생성 음성의 길이 (대화 속도) 매개변수입니다. 값이 클수록 생성 음성이 길고 느리게, 작을수록 짧고 빠르게 됩니다. 기본값은 DEFAULT_LENGTH입니다.
+            line_split (bool, optional): 텍스트를 줄바꿈으로 분할하여 생성할지 여부입니다. 기본값은 DEFAULT_LINE_SPLIT입니다.
+            split_interval (float, optional): 줄바꿈으로 분할하는 경우의 무음 (초)입니다. 기본값은 DEFAULT_SPLIT_INTERVAL입니다.
+            assist_text (Optional[str], optional): 감정 표현의 참조 원본 보조 텍스트입니다. 기본값은 None입니다.
+            assist_text_weight (float, optional): 감정 표현의 보조 텍스트를 적용하는 강도입니다. 기본값은 DEFAULT_ASSIST_TEXT_WEIGHT입니다.
+            use_assist_text (bool, optional): 음성 합성 시 감정 표현의 보조 텍스트를 사용할지 여부입니다. 기본값은 False입니다.
+            style (str, optional): 음성 스타일 (Neutral, Happy 등). 기본값은 DEFAULT_STYLE입니다.
+            style_weight (float, optional): 음성 스타일을 적용하는 강도입니다. 기본값은 DEFAULT_STYLE_WEIGHT입니다.
+            given_tone (Optional[list[int]], optional): 강세의 톤 목록입니다. 기본값은 None입니다.
+            pitch_scale (float, optional): 음높이 (1.0에서 변경하면 약간의 음질 저하가 발생합니다). 기본값은 1.0입니다.
+            intonation_scale (float, optional): 억양의 평균에서의 변화 폭 (1.0에서 변경하면 약간의 음질 저하가 발생합니다). 기본값은 1.0입니다.
 
         Returns:
-            tuple[int, NDArray[Any]]: サンプリングレートと音声データ (16bit PCM)
+            tuple[int, NDArray[Any]]: 샘플링 속도와 오디오 데이터 (16비트 PCM)
         """
 
         logger.info(f"Start generating audio data from text:\n{text}")

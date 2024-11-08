@@ -75,7 +75,7 @@ def merge_style_usual(
 ) -> list[str]:
     """
     new = (1 - weight) * A + weight * B
-    style_triple_list: list[(model_aでのスタイル名, model_bでのスタイル名, 出力するスタイル名)]
+    style_triple_list: list[(model_a에 있는 스타일명, model_b에 있는 스타일명, 출력할 스타일명)
     """
     style_vectors_a = load_style_vectors(model_name_a)
     style_vectors_b = load_style_vectors(model_name_b)
@@ -88,10 +88,10 @@ def merge_style_usual(
     for style_a, style_b, style_out in style_tuple_list:
         if style_a not in style2id_a:
             logger.error(f"{style_a} is not in {model_name_a}.")
-            raise ValueError(f"{style_a} は {model_name_a} にありません。")
+            raise ValueError(f"{style_a}가 {model_name_a}에 없습니다.")
         if style_b not in style2id_b:
             logger.error(f"{style_b} is not in {model_name_b}.")
-            raise ValueError(f"{style_b} は {model_name_b} にありません。")
+            raise ValueError(f"{style_a}가 {model_name_a}에 없습니다.")
         new_style = (
             style_vectors_a[style2id_a[style_a]] * (1 - weight)
             + style_vectors_b[style2id_b[style_b]] * weight
@@ -124,7 +124,7 @@ def merge_style_add_diff(
 ) -> list[str]:
     """
     new = A + weight * (B - C)
-    style_tuple_list: list[(model_aでのスタイル名, model_bでのスタイル名, model_cでのスタイル名, 出力するスタイル名)]
+    style_tuple_list: list[(model_a의 스타일명, model_b의 스타일명, model_c의 스타일명, 출력할 스타일명)]].
     """
     style_vectors_a = load_style_vectors(model_name_a)
     style_vectors_b = load_style_vectors(model_name_b)
@@ -140,13 +140,13 @@ def merge_style_add_diff(
     for style_a, style_b, style_c, style_out in style_tuple_list:
         if style_a not in style2id_a:
             logger.error(f"{style_a} is not in {model_name_a}.")
-            raise ValueError(f"{style_a} は {model_name_a} にありません。")
+            raise ValueError(f"{style_a} 이 {model_name_a} 에 없습니다.")
         if style_b not in style2id_b:
             logger.error(f"{style_b} is not in {model_name_b}.")
-            raise ValueError(f"{style_b} は {model_name_b} にありません。")
+            raise ValueError(f"{style_b} 이 {model_name_b} 에 없습니다.")
         if style_c not in style2id_c:
             logger.error(f"{style_c} is not in {model_name_c}.")
-            raise ValueError(f"{style_c} は {model_name_c} にありません。")
+            raise ValueError(f"{style_c} 이 {model_name_c} 에 없습니다.")
         new_style = style_vectors_a[style2id_a[style_a]] + weight * (
             style_vectors_b[style2id_b[style_b]] - style_vectors_c[style2id_c[style_c]]
         )
@@ -181,7 +181,7 @@ def merge_style_weighted_sum(
 ) -> list[str]:
     """
     new = A * model_a_coeff + B * model_b_coeff + C * model_c_coeff
-    style_tuple_list: list[(model_aでのスタイル名, model_bでのスタイル名, model_cでのスタイル名, 出力するスタイル名)]
+    style_tuple_list: list[(model_a의 스타일명, model_b의 스타일명, model_c의 스타일명, 출력할 스타일명)]].
     """
     style_vectors_a = load_style_vectors(model_name_a)
     style_vectors_b = load_style_vectors(model_name_b)
@@ -197,13 +197,13 @@ def merge_style_weighted_sum(
     for style_a, style_b, style_c, style_out in style_tuple_list:
         if style_a not in style2id_a:
             logger.error(f"{style_a} is not in {model_name_a}.")
-            raise ValueError(f"{style_a} は {model_name_a} にありません。")
+            raise ValueError(f"{style_a} 이 {model_name_a} 에 없습니다.")
         if style_b not in style2id_b:
             logger.error(f"{style_b} is not in {model_name_b}.")
-            raise ValueError(f"{style_b} は {model_name_b} にありません。")
+            raise ValueError(f"{style_b} 이 {model_name_b} 에 없습니다.")
         if style_c not in style2id_c:
             logger.error(f"{style_c} is not in {model_name_c}.")
-            raise ValueError(f"{style_c} は {model_name_c} にありません。")
+            raise ValueError(f"{style_c} 이 {model_name_c} 에 없습니다.")
         new_style = (
             style_vectors_a[style2id_a[style_a]] * model_a_coeff
             + style_vectors_b[style2id_b[style_b]] * model_b_coeff
@@ -237,7 +237,7 @@ def merge_style_add_null(
 ) -> list[str]:
     """
     new = A + weight * B
-    style_tuple_list: list[(model_aでのスタイル名, model_bでのスタイル名, 出力するスタイル名)]
+    style_tuple_list: list[(model_a의 스타일명, model_b의 스타일명, 출력할 스타일명)]].
     """
     style_vectors_a = load_style_vectors(model_name_a)
     style_vectors_b = load_style_vectors(model_name_b)
@@ -250,10 +250,10 @@ def merge_style_add_null(
     for style_a, style_b, style_out in style_tuple_list:
         if style_a not in style2id_a:
             logger.error(f"{style_a} is not in {model_name_a}.")
-            raise ValueError(f"{style_a} は {model_name_a} にありません。")
+            raise ValueError(f"{style_a} 이 {model_name_a} 에 없습니다.")
         if style_b not in style2id_b:
             logger.error(f"{style_b} is not in {model_name_b}.")
-            raise ValueError(f"{style_b} は {model_name_b} にありません。")
+            raise ValueError(f"{style_b} 이 {model_name_b} 에 없습니다.")
         new_style = (
             style_vectors_a[style2id_a[style_a]]
             + weight * style_vectors_b[style2id_b[style_b]]
@@ -623,7 +623,7 @@ def merge_models_gr(
     use_slerp_instead_of_lerp: bool,
 ):
     if output_name == "":
-        return "Error: 新しいモデル名を入力してください。"
+        return "Error: 새 모델명을 입력하세요."
     assert method in [
         "usual",
         "add_diff",
@@ -635,7 +635,7 @@ def merge_models_gr(
     model_c_name = Path(model_path_c).parent.name
     if method == "usual":
         if output_name in [model_a_name, model_b_name]:
-            return "Error: マージ元のモデル名と同じ名前は使用できません。", None
+            return "Error: 병합 원본 모델명과 동일한 이름을 사용할 수 없습니다.", None
         merged_model_path = merge_models_usual(
             model_path_a,
             model_path_b,
@@ -648,7 +648,7 @@ def merge_models_gr(
         )
     elif method == "add_diff":
         if output_name in [model_a_name, model_b_name, model_c_name]:
-            return "Error: マージ元のモデル名と同じ名前は使用できません。", None
+            return "Error: 병합 원본 모델명과 동일한 이름을 사용할 수 없습니다.", None
         merged_model_path = merge_models_add_diff(
             model_path_a,
             model_path_b,
@@ -661,7 +661,7 @@ def merge_models_gr(
         )
     elif method == "weighted_sum":
         if output_name in [model_a_name, model_b_name, model_c_name]:
-            return "Error: マージ元のモデル名と同じ名前は使用できません。", None
+            return "Error: 병합 원본 모델명과 동일한 이름을 사용할 수 없습니다.", None
         merged_model_path = merge_models_weighted_sum(
             model_path_a,
             model_path_b,
@@ -673,7 +673,7 @@ def merge_models_gr(
         )
     else:  # add_null
         if output_name in [model_a_name, model_b_name]:
-            return "Error: マージ元のモデル名と同じ名前は使用できません。", None
+            return "Error: 병합 원본 모델명과 동일한 이름을 사용할 수 없습니다.", None
         merged_model_path = merge_models_add_null(
             model_path_a,
             model_path_b,
@@ -683,7 +683,7 @@ def merge_models_gr(
             tempo_weight,
             output_name,
         )
-    return f"Success: モデルを{merged_model_path}に保存しました。", gr.Dropdown(
+    return f"Success: モデルを{merged_model_path}に保存しました", gr.Dropdown(
         choices=[DEFAULT_STYLE], value=DEFAULT_STYLE
     )
 
@@ -696,7 +696,7 @@ def merge_style_usual_gr(
     style_tuple_list: list[tuple[str, ...]],
 ):
     if output_name == "":
-        return "Error: 新しいモデル名を入力してください。", None
+        return "Error: 새 모델명을 입력하세요.", None
     new_styles = merge_style_usual(
         model_name_a,
         model_name_b,
@@ -704,7 +704,7 @@ def merge_style_usual_gr(
         output_name,
         style_tuple_list,
     )
-    return f"Success: {output_name}のスタイルを保存しました。", gr.Dropdown(
+    return f"Success: {output_name}스타일을 저장했습니다", gr.Dropdown(
         choices=new_styles, value=new_styles[0]
     )
 
@@ -718,7 +718,7 @@ def merge_style_add_diff_gr(
     style_tuple_list: list[tuple[str, ...]],
 ):
     if output_name == "":
-        return "Error: 新しいモデル名を入力してください。", None
+        return "Error: 새 모델명을 입력하세요.", None
     new_styles = merge_style_add_diff(
         model_name_a,
         model_name_b,
@@ -727,7 +727,7 @@ def merge_style_add_diff_gr(
         output_name,
         style_tuple_list,
     )
-    return f"Success: {output_name}のスタイルを保存しました。", gr.Dropdown(
+    return f"Success: {output_name}스타일을 저장했습니다", gr.Dropdown(
         choices=new_styles, value=new_styles[0]
     )
 
@@ -743,7 +743,7 @@ def merge_style_weighted_sum_gr(
     style_tuple_list: list[tuple[str, ...]],
 ):
     if output_name == "":
-        return "Error: 新しいモデル名を入力してください。", None
+        return "Error: 새 모델명을 입력하세요.", None
     new_styles = merge_style_weighted_sum(
         model_name_a,
         model_name_b,
@@ -754,7 +754,7 @@ def merge_style_weighted_sum_gr(
         output_name,
         style_tuple_list,
     )
-    return f"Success: {output_name}のスタイルを保存しました。", gr.Dropdown(
+    return f"Success: {output_name}스타일을 저장했습니다", gr.Dropdown(
         choices=new_styles, value=new_styles[0]
     )
 
@@ -767,7 +767,7 @@ def merge_style_add_null_gr(
     style_tuple_list: list[tuple[str, ...]],
 ):
     if output_name == "":
-        return "Error: 新しいモデル名を入力してください。", None
+        return "Error: 새 모델명을 입력하세요.", None
     new_styles = merge_style_add_null(
         model_name_a,
         model_name_b,
@@ -775,7 +775,7 @@ def merge_style_add_null_gr(
         output_name,
         style_tuple_list,
     )
-    return f"Success: {output_name}のスタイルを保存しました。", gr.Dropdown(
+    return f"Success: {output_name}스타일을 저장했습니다", gr.Dropdown(
         choices=new_styles, value=new_styles[0]
     )
 
@@ -784,7 +784,7 @@ def simple_tts(
     model_name: str, text: str, style: str = DEFAULT_STYLE, style_weight: float = 1.0
 ):
     if model_name == "":
-        return "Error: モデル名を入力してください。", None
+        return "Error: 모델명을 입력하세요", None
     model_path = assets_root / model_name / f"{model_name}.safetensors"
     config_path = assets_root / model_name / "config.json"
     style_vec_path = assets_root / model_name / "style_vectors.npy"
@@ -792,7 +792,7 @@ def simple_tts(
     model = TTSModel(model_path, config_path, style_vec_path, device)
 
     return (
-        "Success: 音声を生成しました。",
+        "Success: 음성 합성 성공",
         model.infer(text, style=style, style_weight=style_weight),
     )
 
@@ -841,113 +841,112 @@ def load_styles_gr(model_name_a: str, model_name_b: str):
 
 
 initial_md = """
-## 使い方
+## 사용 방법
 
-### マージ方法の選択
+### 병합 방법 선택
 
-マージの方法には4つの方法があります。
-- 通常のマージ `new = (1 - weight) * A + weight * B`: AとBのモデルを指定して、要素ごとに比率を指定して混ぜる
-    - 単純にAとBの二人の話し方や声音を混ぜたいとき
-- 差分マージ `new = A + weight * (B - C)`: AとBとCのモデルを指定して、「Bの要素からCの要素を引いたもの」をAに足す
-    - 例えば、Bが「Cと同じ人だけど囁いているモデル」とすると、`B - C`は「囁きを表すベクトル」だと思えるので、それをAに足すことで、Aの声のままで囁き声を出すモデルができたりする
-    - 他にも活用例はいろいろありそう
-- 重み付き和 `new = a * A + b * B + c * C`: AとBとCのモデルを指定して、各モデルの係数を指定して混ぜる
-    - 例えば`new = A - B` としておくと、結果としてできたモデルを別のモデルと「ヌルモデルの加算」で使うことで、差分マージが実現できる
-    - 他にも何らかの活用法があるかもしれない
-- ヌルモデルの加算 `new = A + weight * B`: AとBのモデルを指定して、Bのモデルに要素ごとに比率をかけたものをAに足す
-    - Bのモデルは重み付き和などで `C - D` などとして作っている場合を想定している
-    - 他にも何らかの活用法があるかもしれない
+병합 방법에는 4가지가 있습니다:
+- 일반 병합 `new = (1 - weight) * A + weight * B`: A와 B 모델을 지정하여, 요소별로 비율을 지정하여 혼합합니다.
+    - 단순히 A와 B 두 사람의 말투나 음성을 혼합하고 싶을 때 사용
+- 차분 병합 `new = A + weight * (B - C)`: A, B, C 모델을 지정하고 "B에서 C 요소를 뺀 것"을 A에 추가합니다.
+    - 예를 들어, B가 "C와 동일한 사람의 속삭이는 모델"일 경우, `B - C`는 "속삭임을 나타내는 벡터"로 간주할 수 있어 이를 A에 추가하여 A의 목소리로 속삭임 모델을 만들 수 있습니다.
+    - 다른 활용 예도 여러 가지가 있을 것입니다.
+- 가중합 `new = a * A + b * B + c * C`: A, B, C 모델을 지정하고, 각 모델의 계수를 지정하여 혼합합니다.
+    - 예를 들어 `new = A - B`로 설정하고 결과 모델을 "널 모델의 합산"으로 다른 모델과 사용하여 차분 병합을 구현할 수 있습니다.
+    - 다른 응용 방법도 있을 수 있습니다.
+- 널 모델의 덧셈 `new = A + weight * B`: A와 B 모델을 지정하고 B 모델에 요소별로 비율을 곱하여 A에 더합니다.
+    - B 모델은 가중합 등을 통해 `C - D`로 만든 경우를 가정합니다.
+    - 다른 활용 방법도 있을 수 있습니다.
 
+### 병합 절차
 
-### マージの手順
+1. 병합할 원본 모델 선택 (`model_assets` 폴더에서 선택)
+2. 병합 후 모델의 이름 입력
+3. 지시에 따라 가중치나 계수를 입력
+4. "모델 파일 병합" 버튼 클릭 (safetensors 파일이 병합됨)
+5. 결과를 간이 음성 합성으로 확인
+6. 필요시 스타일 벡터 병합 수행
 
-1. マージ元のモデルたちを選択（`model_assets`フォルダの中から選ばれます）
-2. マージ後のモデルの名前を入力
-3. 指示に従って重みや係数を入力
-4. 「モデルファイルのマージ」ボタンを押す (safetensorsファイルがマージされる)
-5. 結果を簡易音声合成で確認
-6. 必要に応じてスタイルベクトルのマージを行う
+이제 병합이 완료되며, 병합 후 모델은 `model_assets/병합된_모델명`에 저장되어 음성 합성 시 사용할 수 있습니다.
 
-以上でマージは完了で、`model_assets/マージ後のモデル名`にマージ後のモデルが保存され、音声合成のときに使えます。
+또한 `model_assets/병합된_모델명/recipe.json`에는 병합 비율 레시피가 기록되며, 이는 추론에는 필요 없고 참고용입니다.
 
-また`model_asses/マージ後のモデル名/recipe.json`には、マージの配合レシピが記録されます（推論にはいらないので配合メモ用です）。
+하단에는 병합한 모델을 이용한 간이 음성 합성 기능도 추가되어 있습니다.
 
-一番下にマージしたモデルによる簡易的な音声合成機能もつけています。
+## 주의
 
-## 注意
-
-- 1.x系と2.x-JP-Extraのモデルマージは失敗するようです。
-- 話者数が違うモデル同士はおそらくマージできません。
+- 1.x계열과 2.x-JP-Extra 모델 병합은 실패할 수 있습니다.
+- 화자 수가 다른 모델끼리는 병합이 불가능할 수 있습니다.
 """
 
 style_merge_md = f"""
-## 3. スタイルベクトルのマージ
+## 3. 스타일 벡터의 병합
 
-1. マージ後のモデルにいくつスタイルを追加したいかを「作りたいスタイル数」で指定
-2. マージ前のモデルのスタイルを「各モデルのスタイルを取得」ボタンで取得
-3. どのスタイルたちから新しいスタイルを作るかを下の欄で入力
-4. 「スタイルのマージ」をクリック
+1. 병합 후 모델에 추가하고자 하는 스타일 수를 "생성할 스타일 수"로 지정합니다.
+2. 병합 전 모델의 스타일을 "각 모델의 스타일 가져오기" 버튼을 통해 가져옵니다.
+3. 새 스타일을 생성할 스타일들을 하단에 입력합니다.
+4. "스타일 병합"을 클릭합니다.
 
-### スタイルベクトルの混ぜられ方
+### 스타일 벡터 병합 방식
 
-- 構造上の相性の関係で、スタイルベクトルを混ぜる重みは、加重和以外の場合は、上の「話し方」と同じ比率で混ぜられます。例えば「話し方」が0のときはモデルAのみしか使われません。
-- 加重和の場合は、AとBとCの係数によって混ぜられます。
+- 구조적 호환성에 따라 스타일 벡터를 혼합하는 가중치는 가중합이 아닌 경우 상단의 "말투"와 동일한 비율로 혼합됩니다. 예를 들어, "말투"가 0일 경우 모델 A만 사용됩니다.
+- 가중합의 경우 A, B, C의 계수에 따라 혼합됩니다.
 """
 
 usual_md = """
-`weight` を下の各スライダーで定める数値とすると、各要素ごとに、
+`weight`를 하단의 각 슬라이더로 설정하면 각 요소에 대해,
 ```
 new_model = (1 - weight) * A + weight * B
 ```
-としてマージされます。
+로 병합됩니다.
 
-つまり、`weight = 0` のときはモデルA、`weight = 1` のときはモデルBになります。
+즉, `weight = 0`일 때는 모델 A, `weight = 1`일 때는 모델 B가 됩니다.
 """
 
 add_diff_md = """
-`weight` を下の各スライダーで定める数値とすると、各要素ごとに、
+`weight`를 하단의 각 슬라이더로 설정하면 각 요소에 대해,
 ```
 new_model = A + weight * (B - C)
 ```
-としてマージされます。
+로 병합됩니다.
 
-通常のマージと違い、**重みを1にしてもAの要素はそのまま保たれます**。
+일반 병합과 달리 **가중치를 1로 설정해도 A의 요소는 그대로 유지됩니다**.
 """
 
 weighted_sum_md = """
-モデルの係数をそれぞれ `a`, `b`, `c` とすると、 **全要素に対して**、
+모델의 계수를 각각 `a`, `b`, `c`라고 하면, **모든 요소에 대해**,
 ```
 new_model = a * A + b * B + c * C
 ```
-としてマージされます。
+로 병합됩니다.
 
-## TIPS
+## 팁
 
-- A, B, C が全て通常モデルで、通常モデルを作りたい場合は、`a + b + c = 1`となるようにするのがよいと思います。
-- `a + b + c = 0` とすると（たとえば `A - B`）、話者性を持たないヌルモデルを作ることができ、「ヌルモデルとの和」で結果を使うことが出来ます（差分マージの材料などに）
-- 他にも、`a = 0.5, b = c = 0`などでモデルAを謎に小さくしたり大きくしたり負にしたりできるので、実験に使ってください。
+- A, B, C가 모두 일반 모델이고, 일반 모델을 생성하려면 `a + b + c = 1`이 되도록 설정하는 것이 좋습니다.
+- `a + b + c = 0`으로 설정하면 (예: `A - B`), 화자 특성이 없는 널 모델을 만들 수 있으며, 결과를 "널 모델과의 합"으로 사용할 수 있습니다 (차분 병합용 등).
+- 또한 `a = 0.5, b = c = 0` 등으로 모델 A를 작게, 크게, 혹은 음수로 설정하는 실험에 활용할 수 있습니다.
 """
 
 add_null_md = """
-「ヌルモデル」を、いくつかのモデルの加重和であってその係数の和が0であるようなものとします（例えば `C - D` など）。
+"널 모델"은 일부 모델의 가중합으로, 그 계수의 합이 0인 것을 의미합니다 (예: `C - D` 등).
 
-そうして作ったヌルモデルBと通常モデルAに対して、`weight` を下の各スライダーで定める数値とすると、各要素ごとに、
+이렇게 만든 널 모델 B와 일반 모델 A에 대해, `weight`를 하단의 각 슬라이더로 설정하면 각 요소에 대해,
 ```
 new_model = A + weight * B
 ```
-としてマージされます。
+로 병합됩니다.
 
-通常のマージと違い、**重みを1にしてもAの要素はそのまま保たれます**。
+일반 병합과 달리 **가중치를 1로 설정해도 A의 요소는 그대로 유지됩니다**.
 
-実際にはヌルモデルでないBに対しても使えますが、その場合はおそらく音声が正常に生成されないモデルができる気がします。が、もしかしたら何かに使えるかもしれません。
+실제로는 널 모델이 아닌 B에도 사용할 수 있지만, 이 경우 음성이 정상적으로 생성되지 않을 가능성이 있습니다. 그러나 실험적으로 유용할 수도 있습니다.
 
-囁きについて実験的に作ったヌルモデルを[こちら](https://huggingface.co/litagin/sbv2_null_models)に置いています。これを `B` に使うことで、任意のモデルを囁きモデルにある程度は変換できます。
+속삭임에 대해 실험적으로 만든 널 모델을 [여기](https://huggingface.co/litagin/sbv2_null_models)에 올려 두었으며, 이를 `B`로 사용하여 임의의 모델을 속삭임 모델로 어느 정도 변환할 수 있습니다.
 """
 
 tts_md = f"""
-## 2. 結果のテスト
+## 2. 결과 테스트
 
-マージ後のモデルで音声合成を行います。ただし、デフォルトではスタイルは`{DEFAULT_STYLE}`しか使えないので、他のスタイルを使いたい場合は、下の「スタイルベクトルのマージ」を行ってください。
+병합 후 모델로 음성 합성을 수행합니다. 단, 기본적으로는 `{DEFAULT_STYLE}` 스타일만 사용할 수 있으므로, 다른 스타일을 사용하고 싶다면 아래의 "스타일 벡터 병합"을 수행해야 합니다.
 """
 
 
@@ -1005,11 +1004,11 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
     model_names = model_holder.model_names
     if len(model_names) == 0:
         logger.error(
-            f"モデルが見つかりませんでした。{assets_root}にモデルを置いてください。"
+            f"모델을 찾을 수 없습니다. {assets_root}에 모델을 넣어 주세요."
         )
         with gr.Blocks() as app:
             gr.Markdown(
-                f"Error: モデルが見つかりませんでした。{assets_root}にモデルを置いてください。"
+                f"Error: 모델을 찾을 수 없습니다. {assets_root}에 모델을 넣어 주세요."
             )
         return app
     initial_id = 0
@@ -1019,126 +1018,126 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
 
     with gr.Blocks(theme=GRADIO_THEME) as app:
         gr.Markdown(
-            "複数のStyle-Bert-VITS2モデルから、声質・話し方・話す速さを取り替えたり混ぜたり引いたりして新しいモデルを作成できます。"
+            "여러 Style-Bert-VITS2 모델에서 음성 특성, 말투, 말하는 속도를 변경하거나 혼합하여 새로운 모델을 생성할 수 있습니다."
         )
-        with gr.Accordion(label="使い方", open=False):
+        with gr.Accordion(label="사용 방법", open=False):
             gr.Markdown(initial_md)
         method = gr.Radio(
-            label="マージ方法",
+            label="병합 방법",
             choices=[
-                ("通常マージ", "usual"),
-                ("差分マージ", "add_diff"),
-                ("加重和", "weighted_sum"),
-                ("ヌルモデルマージ", "add_null"),
+                ("일반 병합", "usual"),
+                ("차분 병합", "add_diff"),
+                ("가중합", "weighted_sum"),
+                ("널 모델 병합", "add_null"),
             ],
             value="usual",
         )
         with gr.Row():
             with gr.Column(scale=3):
                 model_name_a = gr.Dropdown(
-                    label="モデルA",
+                    label="모델 A",
                     choices=model_names,
                     value=model_names[initial_id],
                 )
                 model_path_a = gr.Dropdown(
-                    label="モデルファイル",
+                    label="모델 파일",
                     choices=initial_model_files,
                     value=initial_model_files[0],
                 )
                 model_a_coeff = gr.Number(
-                    label="モデルAの係数",
+                    label="모델 A의 계수",
                     value=1.0,
                     step=0.1,
                     visible=False,
                 )
             with gr.Column(scale=3):
                 model_name_b = gr.Dropdown(
-                    label="モデルB",
+                    label="모델 B",
                     choices=model_names,
                     value=model_names[initial_id],
                 )
                 model_path_b = gr.Dropdown(
-                    label="モデルファイル",
+                    label="모델 파일",
                     choices=initial_model_files,
                     value=initial_model_files[0],
                 )
                 model_b_coeff = gr.Number(
-                    label="モデルBの係数",
+                    label="모델 B의 계수",
                     value=-1.0,
                     step=0.1,
                     visible=False,
                 )
             with gr.Column(scale=3, visible=False) as c_col:
                 model_name_c = gr.Dropdown(
-                    label="モデルC",
+                    label="모델 C",
                     choices=model_names,
                     value=model_names[initial_id],
                 )
                 model_path_c = gr.Dropdown(
-                    label="モデルファイル",
+                    label="모델 파일",
                     choices=initial_model_files,
                     value=initial_model_files[0],
                 )
                 model_c_coeff = gr.Number(
-                    label="モデルCの係数",
+                    label="모델 C의 계수",
                     value=0.0,
                     step=0.1,
                     visible=False,
                 )
-            refresh_button = gr.Button("更新", scale=1, visible=True)
+            refresh_button = gr.Button("업데이트", scale=1, visible=True)
         method_desc = gr.Markdown(usual_md)
         with gr.Column(variant="panel"):
-            new_name = gr.Textbox(label="新しいモデル名", placeholder="new_model")
+            new_name = gr.Textbox(label="새 모델 이름", placeholder="new_model")
             with gr.Row() as weight_row:
                 voice_slider = gr.Slider(
-                    label="声質",
+                    label="음성 품질",
                     value=0,
                     minimum=0,
                     maximum=1,
                     step=0.1,
                 )
                 voice_pitch_slider = gr.Slider(
-                    label="声の高さ",
+                    label="음성 높이",
                     value=0,
                     minimum=0,
                     maximum=1,
                     step=0.1,
                 )
                 speech_style_slider = gr.Slider(
-                    label="話し方（抑揚・感情表現等）",
+                    label="말투 (억양, 감정 표현 등)",
                     value=0,
                     minimum=0,
                     maximum=1,
                     step=0.1,
                 )
                 tempo_slider = gr.Slider(
-                    label="話す速さ・リズム・テンポ",
+                    label="말하는 속도, 리듬, 템포",
                     value=0,
                     minimum=0,
                     maximum=1,
                     step=0.1,
                 )
                 use_slerp_instead_of_lerp = gr.Checkbox(
-                    label="線形補完のかわりに球面線形補完を使う",
+                    label="선형 보간 대신 구면 선형 보간 사용",
                     value=False,
                     visible=True,
                 )
         with gr.Column(variant="panel"):
-            gr.Markdown("## 1. モデルファイル (safetensors) のマージ")
+            gr.Markdown("## 1. 모델 파일 (safetensors) 병합")
             with gr.Row():
                 model_merge_button = gr.Button(
-                    "モデルファイルのマージ", variant="primary"
+                    "모델 파일 병합", variant="primary"
                 )
-                info_model_merge = gr.Textbox(label="情報")
+                info_model_merge = gr.Textbox(label="정보")
         with gr.Column(variant="panel"):
             gr.Markdown(tts_md)
             text_input = gr.TextArea(
-                label="テキスト", value="これはテストです。聞こえていますか？"
+                label="텍스트", value="これはテストです。聞こえていますか？"
             )
             with gr.Row():
                 with gr.Column():
                     style = gr.Dropdown(
-                        label="スタイル",
+                        label="스타일",
                         choices=[DEFAULT_STYLE],
                         value=DEFAULT_STYLE,
                     )
@@ -1147,11 +1146,11 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
                         maximum=50,
                         value=1,
                         step=0.1,
-                        label="スタイルの強さ",
+                        label="스타일 강도",
                     )
-                tts_button = gr.Button("音声合成", variant="primary")
-                tts_info = gr.Textbox(label="情報")
-            audio_output = gr.Audio(label="結果")
+                tts_button = gr.Button("음성 합성", variant="primary")
+                tts_info = gr.Textbox(label="정보")
+            audio_output = gr.Audio(label="결과")
         with gr.Column(variant="panel"):
             gr.Markdown(style_merge_md)
             style_a_list = gr.State([DEFAULT_STYLE])
@@ -1159,9 +1158,9 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
             style_c_list = gr.State([DEFAULT_STYLE])
             gr.Markdown("Hello world!")
             with gr.Row():
-                style_count = gr.Number(label="作るスタイルの数", value=1, step=1)
+                style_count = gr.Number(label="생성할 스타일 수", value=1, step=1)
 
-                get_style_btn = gr.Button("各モデルのスタイルを取得", variant="primary")
+                get_style_btn = gr.Button("각 모델의 스타일 가져오기", variant="primary")
             get_style_btn.click(
                 get_triple_styles,
                 inputs=[model_name_a, model_name_b, model_name_c],
@@ -1193,21 +1192,21 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
                     for i in range(style_count):
                         with gr.Row():
                             style_a = gr.Dropdown(
-                                label="モデルAのスタイル名",
+                                label="모델 A의 스타일명",
                                 key=f"style_a_{i}",
                                 choices=style_a_list,
                                 value=DEFAULT_STYLE,
                                 interactive=i != 0,
                             )
                             style_b = gr.Dropdown(
-                                label="モデルBのスタイル名",
+                                label="모델 B의 스타일명",
                                 key=f"style_b_{i}",
                                 choices=style_b_list,
                                 value=DEFAULT_STYLE,
                                 interactive=i != 0,
                             )
                             style_out = gr.Textbox(
-                                label="出力スタイル名",
+                                label="출력 스타일명",
                                 key=f"style_out_{i}",
                                 value=DEFAULT_STYLE,
                                 interactive=i != 0,
@@ -1423,8 +1422,8 @@ def create_merge_app(model_holder: TTSModelHolder) -> gr.Blocks:
                         )
 
             with gr.Row():
-                add_btn = gr.Button("スタイルを増やす")
-                del_btn = gr.Button("スタイルを減らす")
+                add_btn = gr.Button("스타일 더하기")
+                del_btn = gr.Button("스타일 줄이기")
             add_btn.click(
                 lambda x: x + 1,
                 inputs=[style_count],

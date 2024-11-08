@@ -14,7 +14,7 @@ def do_slice(
     input_dir: str,
 ):
     if model_name == "":
-        return "Error: モデル名を入力してください。"
+        return "Error: 모델명을 입력해주세요."
     logger.info("Start slicing...")
     cmd = [
         "slice.py",
@@ -31,11 +31,11 @@ def do_slice(
         cmd.append("--time_suffix")
     if input_dir != "":
         cmd += ["--input_dir", input_dir]
-    # onnxの警告が出るので無視する
+    # onnx 경고를 무시합니다
     success, message = run_script_with_log(cmd, ignore_warning=True)
     if not success:
         return f"Error: {message}"
-    return "音声のスライスが完了しました。"
+    return "오디오 슬라이스가 완료되었습니다."
 
 
 def do_transcribe(
@@ -50,7 +50,7 @@ def do_transcribe(
     hf_repo_id,
 ):
     if model_name == "":
-        return "Error: モデル名を入力してください。"
+        return "Error: 모델명을 입력해주세요."
 
     cmd = [
         "transcribe.py",
@@ -74,89 +74,89 @@ def do_transcribe(
             cmd.extend(["--hf_repo_id", hf_repo_id])
     success, message = run_script_with_log(cmd, ignore_warning=True)
     if not success:
-        return f"Error: {message}. エラーメッセージが空の場合、何も問題がない可能性があるので、書き起こしファイルをチェックして問題なければ無視してください。"
-    return "音声の文字起こしが完了しました。"
+        return f"Error: {message}. 에러 메시지가 비어 있는 경우, 문제가 없을 수 있으니, 작성된 파일을 확인하고 문제가 없으면 무시하세요."
+    return "오디오 전사가 완료되었습니다."
 
 
 how_to_md = """
-Style-Bert-VITS2の学習用データセットを作成するためのツールです。以下の2つからなります。
+Style-Bert-VITS2의 학습용 데이터셋을 만들기 위한 도구입니다. 다음 두 가지로 구성됩니다.
 
-- 与えられた音声からちょうどいい長さの発話区間を切り取りスライス
-- 音声に対して文字起こし
+- 주어진 오디오에서 적절한 길이의 발화 구간을 잘라 슬라이스
+- 오디오에 대해 전사
 
-このうち両方を使ってもよいし、スライスする必要がない場合は後者のみを使ってもよいです。**コーパス音源などすでに適度な長さの音声ファイルがある場合はスライスは不要**です。
+이 중 둘 다 사용할 수 있으며, 슬라이스가 필요 없는 경우 후자만 사용할 수 있습니다. **코퍼스 음원 등 이미 적절한 길이의 오디오 파일이 있는 경우 슬라이스는 불필요합니다.**
 
-## 必要なもの
+## 필요한 것
 
-学習したい音声が入った音声ファイルいくつか（形式はwav以外でもmp3等通常の音声ファイル形式なら可能）。
-合計時間がある程度はあったほうがいいかも、10分とかでも大丈夫だったとの報告あり。単一ファイルでも良いし複数ファイルでもよい。
+학습하고자 하는 오디오가 들어 있는 오디오 파일 몇 개(형식은 wav 외에도 mp3 등 일반적인 오디오 파일 형식이면 가능).
+총 시간이 어느 정도 있는 것이 좋습니다. 10분 정도라도 괜찮다는 보고가 있습니다. 단일 파일이어도 되고 여러 파일이어도 됩니다.
 
-## スライス使い方
-1. `inputs`フォルダに音声ファイルをすべて入れる（スタイル分けをしたい場合は、サブフォルダにスタイルごとに音声を分けて入れる）
-2. `モデル名`を入力して、設定を必要なら調整して`音声のスライス`ボタンを押す
-3. 出来上がった音声ファイルたちは`Data/{モデル名}/raw`に保存される
+## 슬라이스 사용법
+1. `inputs` 폴더에 오디오 파일을 모두 넣습니다(스타일을 나누고 싶은 경우, 서브 폴더에 스타일별로 오디오를 나누어 넣습니다).
+2. `모델명`을 입력하고, 설정을 필요에 따라 조정한 후 `오디오 슬라이스` 버튼을 누릅니다.
+3. 생성된 오디오 파일들은 `Data/{모델명}/raw`에 저장됩니다.
 
-## 書き起こし使い方
+## 전사 사용법
 
-1. `Data/{モデル名}/raw`に音声ファイルが入っていることを確認（直下でなくてもよい）
-2. 設定を必要なら調整してボタンを押す
-3. 書き起こしファイルは`Data/{モデル名}/esd.list`に保存される
+1. `Data/{모델명}/raw`에 오디오 파일이 있는지 확인합니다(직접 위치하지 않아도 됩니다).
+2. 설정을 필요에 따라 조정한 후 버튼을 누릅니다.
+3. 전사 파일은 `Data/{모델명}/esd.list`에 저장됩니다.
 
-## 注意
+## 주의
 
-- ~~長すぎる秒数（12-15秒くらいより長い？）のwavファイルは学習に用いられないようです。また短すぎてもあまりよくない可能性もあります。~~ この制限はVer 2.5では学習時に「カスタムバッチサンプラーを使わない」を選択すればなくなりました。が、長すぎる音声があるとVRAM消費量が増えたり安定しなかったりするので、適度な長さにスライスすることをおすすめします。
-- 書き起こしの結果をどれだけ修正すればいいかはデータセットに依存しそうです。
+- ~~너무 긴 초수(12-15초 이상)의 wav 파일은 학습에 사용되지 않는 것 같습니다. 또한 너무 짧아도 좋지 않을 수 있습니다.~~ 이 제한은 Ver 2.5에서는 학습 시 "커스텀 배치 샘플러를 사용하지 않음"을 선택하면 없어졌습니다. 그러나 너무 긴 오디오가 있으면 VRAM 소비량이 증가하거나 안정적이지 않을 수 있으므로, 적절한 길이로 슬라이스하는 것을 권장합니다.
+- 전사 결과를 얼마나 수정해야 하는지는 데이터셋에 따라 다를 수 있습니다.
 """
 
 
 def create_dataset_app() -> gr.Blocks:
     with gr.Blocks(theme=GRADIO_THEME) as app:
         gr.Markdown(
-            "**既に1ファイル2-12秒程度の音声ファイル集とその書き起こしデータがある場合は、このタブは使用せずに学習できます。**"
+            "**이미 1파일 2-12초 정도의 오디오 파일 모음과 그 전사 데이터가 있는 경우, 이 탭을 사용하지 않고 학습할 수 있습니다.**"
         )
-        with gr.Accordion("使い方", open=False):
+        with gr.Accordion("사용법", open=False):
             gr.Markdown(how_to_md)
         model_name = gr.Textbox(
-            label="モデル名を入力してください（話者名としても使われます）。"
+            label="모델명을 입력해주세요(화자명으로도 사용됩니다)."
         )
-        with gr.Accordion("音声のスライス"):
+        with gr.Accordion("오디오 슬라이스"):
             gr.Markdown(
-                "**すでに適度な長さの音声ファイルからなるデータがある場合は、その音声をData/{モデル名}/rawに入れれば、このステップは不要です。**"
+                "**이미 적절한 길이의 오디오 파일로 구성된 데이터가 있는 경우, 그 오디오를 Data/{모델명}/raw에 넣으면 이 단계는 불필요합니다.**"
             )
             with gr.Row():
                 with gr.Column():
                     input_dir = gr.Textbox(
-                        label="元音声の入っているフォルダパス",
+                        label="원본 오디오가 들어 있는 폴더 경로",
                         value="inputs",
-                        info="下記フォルダにwavやmp3等のファイルを入れておいてください",
+                        info="아래 폴더에 wav나 mp3 등의 파일을 넣어주세요",
                     )
                     min_sec = gr.Slider(
                         minimum=0,
                         maximum=10,
                         value=2,
                         step=0.5,
-                        label="この秒数未満は切り捨てる",
+                        label="이 초수 미만은 버립니다",
                     )
                     max_sec = gr.Slider(
                         minimum=0,
                         maximum=15,
                         value=12,
                         step=0.5,
-                        label="この秒数以上は切り捨てる",
+                        label="이 초수 이상은 버립니다",
                     )
                     min_silence_dur_ms = gr.Slider(
                         minimum=0,
                         maximum=2000,
                         value=700,
                         step=100,
-                        label="無音とみなして区切る最小の無音の長さ（ms）",
+                        label="무음으로 간주하여 구분할 최소 무음 길이(ms)",
                     )
                     time_suffix = gr.Checkbox(
                         value=False,
-                        label="WAVファイル名の末尾に元ファイルの時間範囲を付与する",
+                        label="WAV 파일명 끝에 원본 파일의 시간 범위를 추가합니다",
                     )
-                    slice_button = gr.Button("スライスを実行")
-                result1 = gr.Textbox(label="結果")
+                    slice_button = gr.Button("슬라이스 실행")
+                result1 = gr.Textbox(label="결과")
         with gr.Row():
             with gr.Column():
                 whisper_model = gr.Dropdown(
@@ -169,16 +169,16 @@ def create_dataset_app() -> gr.Blocks:
                         "large-v2",
                         "large-v3",
                     ],
-                    label="Whisperモデル",
+                    label="Whisper 모델",
                     value="large-v3",
                 )
                 use_hf_whisper = gr.Checkbox(
-                    label="HuggingFaceのWhisperを使う（速度が速いがVRAMを多く使う）",
+                    label="HuggingFace의 Whisper 사용(속도가 빠르지만 VRAM을 많이 사용)",
                     value=True,
                 )
                 hf_repo_id = gr.Dropdown(
-                    ["openai/whisper", "kotoba-tech/kotoba-whisper-v1.1"],
-                    label="HuggingFaceのWhisperモデル",
+                    ["openai/whisper", "kotoba-tech/kotoba-whisper-v1.1", "kotoba-tech/kotoba-whisper-v2.1"],
+                    label="HuggingFace의 Whisper 모델",
                     value="openai/whisper",
                 )
                 compute_type = gr.Dropdown(
@@ -192,7 +192,7 @@ def create_dataset_app() -> gr.Blocks:
                         "bfloat16",
                         "float32",
                     ],
-                    label="計算精度",
+                    label="계산 정밀도",
                     value="bfloat16",
                     visible=False,
                 )
@@ -201,25 +201,25 @@ def create_dataset_app() -> gr.Blocks:
                     maximum=128,
                     value=16,
                     step=1,
-                    label="バッチサイズ",
-                    info="大きくすると速度が速くなるがVRAMを多く使う",
+                    label="배치 크기",
+                    info="크게 하면 속도가 빨라지지만 VRAM을 많이 사용",
                 )
-                language = gr.Dropdown(["ja", "en", "zh"], value="ja", label="言語")
+                language = gr.Dropdown(["ja", "en", "zh"], value="ja", label="언어")
                 initial_prompt = gr.Textbox(
-                    label="初期プロンプト",
+                    label="초기 프롬프트",
                     value="こんにちは。元気、ですかー？ふふっ、私は……ちゃんと元気だよ！",
-                    info="このように書き起こしてほしいという例文（句読点の入れ方・笑い方・固有名詞等）",
+                    info="이렇게 전사해줬으면 하는 예문(구두점, 웃음소리, 고유명사 등)",
                 )
                 num_beams = gr.Slider(
                     minimum=1,
                     maximum=10,
                     value=1,
                     step=1,
-                    label="ビームサーチのビーム数",
-                    info="小さいほど速度が上がる（以前は5）",
+                    label="빔 서치의 빔 수",
+                    info="작을수록 속도가 빨라짐(이전에는 5)",
                 )
-            transcribe_button = gr.Button("音声の文字起こし")
-            result2 = gr.Textbox(label="結果")
+            transcribe_button = gr.Button("오디오 전사")
+            result2 = gr.Textbox(label="결과")
         slice_button.click(
             do_slice,
             inputs=[

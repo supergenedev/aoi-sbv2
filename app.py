@@ -16,10 +16,10 @@ from style_bert_vits2.nlp.japanese.user_dict import update_dict
 from style_bert_vits2.tts_model import TTSModelHolder
 
 
-# このプロセスからはワーカーを起動して辞書を使いたいので、ここで初期化
+# 이 프로세스에서 워커를 실행하고 사전을 사용하고 싶으므로 여기서 초기화
 pyopenjtalk_worker.initialize_worker()
 
-# dict_data/ 以下の辞書データを pyopenjtalk に適用
+# dict_data/ 아래의 사전 데이터를 pyopenjtalk에 적용
 update_dict()
 
 
@@ -43,17 +43,17 @@ path_config = get_path_config()
 model_holder = TTSModelHolder(Path(path_config.assets_root), device)
 
 with gr.Blocks(theme=GRADIO_THEME) as app:
-    gr.Markdown(f"# Style-Bert-VITS2 WebUI (version {VERSION})")
+    gr.Markdown(f"# Style-Bert-VITS2 WebUI (버전 {VERSION})")
     with gr.Tabs():
-        with gr.Tab("音声合成"):
+        with gr.Tab("음성 합성"):
             create_inference_app(model_holder=model_holder)
-        with gr.Tab("データセット作成"):
+        with gr.Tab("데이터셋 생성"):
             create_dataset_app()
-        with gr.Tab("学習"):
+        with gr.Tab("학습"):
             create_train_app()
-        with gr.Tab("スタイル作成"):
+        with gr.Tab("스타일 생성"):
             create_style_vectors_app()
-        with gr.Tab("マージ"):
+        with gr.Tab("병합"):
             create_merge_app(model_holder=model_holder)
 
 app.launch(
