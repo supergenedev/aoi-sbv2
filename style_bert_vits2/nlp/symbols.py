@@ -168,16 +168,50 @@ EN_SYMBOLS = [
 ]
 NUM_EN_TONES = 4
 
+KO_SYMBOLS = [
+    "ㅏ",  # a
+    "ㅐ",  # ae
+    "ㅂ",  # b
+    "ㅊ",  # ch
+    "ㄷ",  # d
+    "ㅔ",  # e
+    "ㅓ",  # eo
+    "ㅡ",  # eu
+    "ㅍ",  # f
+    "ㄱ",  # g
+    "ㅎ",  # h
+    "ㅣ",  # i
+    "ㅈ",  # j
+    "ㅋ",  # k
+    "ㄹ",  # l (or r as per phonetic context)
+    "ㅁ",  # m
+    "ㄴ",  # n
+    "ㅇ",  # ng (or placeholder for nasalized sounds)
+    "ㅗ",  # o
+    "ㅍ",  # p
+    "ㄹ",  # r (when representing r sounds specifically)
+    "ㅅ",  # s
+    "ㅌ",  # t
+    "ㅜ",  # u
+    "ㅂ",  # v (often approximated with "ㅂ" in Korean phonetics)
+    "ㅈ",  # z (often approximated with "ㅈ" in phonetic contexts)
+]
+
+NUM_KO_TONES = 4 # 초성, 중성, 종성, punctuation
+
 # Combine all symbols
 NORMAL_SYMBOLS = sorted(set(ZH_SYMBOLS + JP_SYMBOLS + EN_SYMBOLS))
-SYMBOLS = [PAD] + NORMAL_SYMBOLS + PUNCTUATION_SYMBOLS
+# SYMBOLS = [PAD] + NORMAL_SYMBOLS + PUNCTUATION_SYMBOLS (기존)
+# 인덱스 유지를 위해 KO_SYMBOLS를 추가하고, PUNCTUATION_SYMBOLS를 뒤로 보냄
+# 추후에 모델을 아예 새로 만든다면 `[PAD + PUNCTUATION_SYMBOLS + sorted(set(ZH_SYMBOLS + JP_SYMBOLS + EN_SYMBOLS + KO_SYMBOLS))]`로 변경
+SYMBOLS = [PAD] + NORMAL_SYMBOLS + PUNCTUATION_SYMBOLS + KO_SYMBOLS 
 SIL_PHONEMES_IDS = [SYMBOLS.index(i) for i in PUNCTUATION_SYMBOLS]
 
 # Combine all tones
-NUM_TONES = NUM_ZH_TONES + NUM_JP_TONES + NUM_EN_TONES
+NUM_TONES = NUM_ZH_TONES + NUM_JP_TONES + NUM_EN_TONES + NUM_KO_TONES
 
 # Language maps
-LANGUAGE_ID_MAP = {"ZH": 0, "JP": 1, "EN": 2}
+LANGUAGE_ID_MAP = {"ZH": 0, "JP": 1, "EN": 2, "KO": 3}
 NUM_LANGUAGES = len(LANGUAGE_ID_MAP.keys())
 
 # Language tone start map
@@ -185,6 +219,7 @@ LANGUAGE_TONE_START_MAP = {
     "ZH": 0,
     "JP": NUM_ZH_TONES,
     "EN": NUM_ZH_TONES + NUM_JP_TONES,
+    "KO": NUM_ZH_TONES + NUM_JP_TONES + NUM_EN_TONES,
 }
 
 
