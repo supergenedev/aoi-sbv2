@@ -169,35 +169,60 @@ EN_SYMBOLS = [
 NUM_EN_TONES = 4
 
 KO_SYMBOLS = [
-    "ㅏ",  # a
-    "ㅐ",  # ae
-    "ㅂ",  # b
-    "ㅊ",  # ch
-    "ㄷ",  # d
-    "ㅔ",  # e
-    "ㅓ",  # eo
-    "ㅡ",  # eu
-    "ㅍ",  # f
-    "ㄱ",  # g
-    "ㅎ",  # h
-    "ㅣ",  # i
-    "ㅈ",  # j
-    "ㅋ",  # k
-    "ㄹ",  # l (or r as per phonetic context)
-    "ㅁ",  # m
-    "ㄴ",  # n
-    "ㅇ",  # ng (or placeholder for nasalized sounds)
-    "ㅗ",  # o
-    "ㅍ",  # p
-    "ㄹ",  # r (when representing r sounds specifically)
-    "ㅅ",  # s
-    "ㅌ",  # t
-    "ㅜ",  # u
-    "ㅂ",  # v (often approximated with "ㅂ" in Korean phonetics)
-    "ㅈ",  # z (often approximated with "ㅈ" in phonetic contexts)
+    ### 한국어 표준 발음법을 참고하여 자음 19개, 모음 21개, 받침 7개
+    # 자음
+    'ᄀ',
+    'ᄁ',
+    'ᄂ',
+    'ᄃ',
+    'ᄄ',
+    'ᄅ',
+    'ᄆ',
+    'ᄇ',
+    'ᄈ',
+    'ᄉ',
+    'ᄊ',
+    'ᄋ',
+    'ᄌ',
+    'ᄍ',
+    'ᄎ',
+    'ᄏ',
+    'ᄐ',
+    'ᄑ',
+    'ᄒ',
+    # 모음
+    'ᅡ',
+    'ᅢ',
+    'ᅣ',
+    'ᅤ',
+    'ᅥ',
+    'ᅦ',
+    'ᅧ',
+    'ᅨ',
+    'ᅩ',
+    'ᅪ',
+    'ᅫ',
+    'ᅬ',
+    'ᅭ',
+    'ᅮ',
+    'ᅯ',
+    'ᅰ',
+    'ᅱ',
+    'ᅲ',
+    'ᅳ',
+    'ᅴ',
+    'ᅵ',
+    # 받침
+    'ᆨ',
+    'ᆫ',
+    'ᆮ',
+    'ᆯ',
+    'ᆷ',
+    'ᆸ',
+    'ᆼ',
 ]
 
-NUM_KO_TONES = 4 # 초성, 중성, 종성, punctuation
+NUM_KO_TONES = 2 # 정상 / punctuation (symbol에 이미 초중종성에 대한 정보가 내포되어 있기 때문에)
 
 # Combine all symbols
 NORMAL_SYMBOLS = sorted(set(ZH_SYMBOLS + JP_SYMBOLS + EN_SYMBOLS))
