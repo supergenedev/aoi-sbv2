@@ -63,4 +63,8 @@ def extract_bert_feature(
 
     phone_level_feature = torch.cat(phone_level_feature, dim=0)
 
+    # 첫 1024 차원만 가져오기 (xlarge의 경우)
+    phone_level_feature = phone_level_feature[:, :1024]  # Now (tokens, 1024)
+
+
     return phone_level_feature.T
