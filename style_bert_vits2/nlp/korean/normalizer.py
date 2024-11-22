@@ -2,6 +2,9 @@ import re
 import unicodedata
 
 from num2words import num2words
+from g2pk2 import G2p
+
+from style_bert_vits2.logging import logger
 
 # 사용할 문장 부호 목록
 PUNCTUATIONS = [".", ",", "!", "?", "'", "-", "..."]
@@ -90,12 +93,46 @@ COUNTER_UNITS = ['개', '명', '권', '잔', '대', '장', '마리', '살', '번
 # 단위 명사 패턴 생성
 COUNTER_PATTERN = re.compile(r"([0-9]+)\s*(" + '|'.join(COUNTER_UNITS) + r")")
 
+g2p = G2p()
+ENGLISH_PATTERN = re.compile(r"[a-zA-Z]+")
+__ALPHABET_TO_KOREAN_MAP = {
+    "a": "에이",
+    "b": "비",
+    "c": "씨",
+    "d": "디",
+    "e": "이",
+    "f": "에프",
+    "g": "지",
+    "h": "에이치",
+    "i": "아이",
+    "j": "제이",
+    "k": "케이",
+    "l": "엘",
+    "m": "엠",
+    "n": "엔",
+    "o": "오",
+    "p": "피",
+    "q": "큐",
+    "r": "알",
+    "s": "에스",
+    "t": "티",
+    "u": "유",
+    "v": "브이",
+    "w": "더블유",
+    "x": "엑스",
+    "y": "와이",
+    "z": "지",
+}
+
 def normalize_text(text: str) -> str:
     res = unicodedata.normalize("NFKC", text)
     res = __TIME_PATTERN.sub(lambda m: __expand_time(m), res)
     res = __ORDINAL_PATTERN.sub(lambda m: __expand_ordinal(m), res)  # 서수 변환을 숫자 변환보다 먼저 수행
     res = COUNTER_PATTERN.sub(lambda m: __expand_counter(m), res)  # 수량 표현 변환 추가
     res = __convert_numbers_to_words(res)
+    if ENGLISH_PATTERN.search(res):
+        logger.info(f"English words found in the text: {text}")
+        res = __convert_english_to_korean(res)
     res = replace_punctuation(res)
     return res
 
@@ -105,6 +142,21 @@ def replace_punctuation(text: str) -> str:
     # 허용되지 않는 문자 제거
     replaced_text = __VALID_CHAR_PATTERN.sub("", replaced_text)
     return replaced_text
+
+def __convert_english_to_korean(text: str) -> str:
+    # 영문자 변환
+    def replace_english(match):
+        word = match.group()
+        # Step 1: Use g2p to convert English to Korean pronunciation
+        converted = g2p(word)
+        # Step 2: If English letters remain, convert them using the map
+        if re.search(r'[a-zA-Z]', converted):
+            letters = [__ALPHABET_TO_KOREAN_MAP.get(ch.lower(), ch) for ch in word]
+            converted = ' '.join(letters)
+        return converted
+
+    # Replace English words in the text
+    return ENGLISH_PATTERN.sub(replace_english, text)
 
 def __convert_numbers_to_words(text: str) -> str:
     # 천 단위 구분자 제거
@@ -256,7 +308,9 @@ if __name__ == "__main__":
         "「내」 이야기는 막을 내렸지만, 이젠 「우리」 이야기가 시작될 차례야… 생각해 보니까 그럼 출연료를 2배로 받을 수 있겠네? 신난다!",
         "하지만 30초쯤까지 셌을 때 쿵 하는 소리가 났는걸? 모두가 들었을 정도로 큰 소리였지",
         "「정의의 수호자」? 설마 20년 전에 밤마다 활약했다는 히어로 말이야?",
-
+        "Hello world",
+        "HP가 얼마 안 남았어...",
+        "혹은 바로 교환하지 않고 모집을 통해 해당 학생을 얻고 나서 신비해방의 그 학생의 LF를 사용하는 방법도 있습니다.",
     ]
     for text in sample_text:
         normalized_text = normalize_text(text)
