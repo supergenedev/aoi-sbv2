@@ -1,6 +1,6 @@
 import re
 import logging
-from g2pkk import G2p
+from g2pk2 import G2p
 from jamo import h2j
 from style_bert_vits2.constants import Languages
 from style_bert_vits2.nlp import bert_models
@@ -15,6 +15,7 @@ def g2p(text: str) -> tuple[list[str], list[int], list[int]]:
     tones = []
     phone_len = []
     words = __text_to_words(text)
+    word2ph = []
 
     for word in words:
         temp_phones = []
@@ -27,44 +28,46 @@ def g2p(text: str) -> tuple[list[str], list[int], list[int]]:
         if word_str in PUNCTUATIONS:
             temp_phones.append(word_str)
             temp_tones.append(0)
+            word2ph.append(1)
         else:
-            # Get pronunciation using g2p
-            pronunciation = g2p_converter(word_str)
-            # Convert pronunciation to jamo (phonemes)
-            phones_list = list(h2j(pronunciation))
-            # Remove '#' characters from phones
-            phones_list = [p for p in phones_list if p != '#']
-            temp_phones.extend(phones_list)
-            # Assign tone 1 to regular characters
-            temp_tones.extend([1]*len(phones_list))
+            for w in word:
+                # Get pronunciation using g2p
+                pronunciation = g2p_converter(w)
+                # Convert pronunciation to jamo (phonemes)
+                phones_list = list(h2j(pronunciation))
+                # Remove '#' characters from phones
+                phones_list = [p for p in phones_list if p != '#']
+                temp_phones.extend(phones_list)
+                # Assign tone 1 to regular characters
+                temp_tones.extend([1]*len(phones_list))
+                word2ph.append(len(phones_list))
 
         phones.extend(temp_phones)
         tones.extend(temp_tones)
         phone_len.append(len(temp_phones))
 
-    word2ph = []
-    for word, pl in zip(words, phone_len):
-        word_len = len(word)
-        word2ph += __distribute_phone(pl, word_len)
+    # word2ph = []
+    # for word, pl in zip(words, phone_len):
+    #     word_len = len(word)
+    #     word2ph += __distribute_phone(pl, word_len)
 
     # Add start and end symbols
     phones = ['_'] + phones + ['_']
     tones = [0] + tones + [0]
     word2ph = [1] + word2ph + [1]
+    # set_trace()
     assert len(phones) == len(tones), text
     assert len(phones) == sum(word2ph), text
 
-    logger.info(str(phones))
-
     return phones, tones, word2ph
 
-def __distribute_phone(n_phone: int, n_word: int) -> list[int]:
-    phones_per_word = [0] * n_word
-    for _ in range(n_phone):
-        min_tasks = min(phones_per_word)
-        min_index = phones_per_word.index(min_tasks)
-        phones_per_word[min_index] += 1
-    return phones_per_word
+# def __distribute_phone(n_phone: int, n_word: int) -> list[int]:
+#     phones_per_word = [0] * n_word
+#     for _ in range(n_phone):
+#         min_tasks = min(phones_per_word)
+#         min_index = phones_per_word.index(min_tasks)
+#         phones_per_word[min_index] += 1
+#     return phones_per_word
 
 def __text_to_words(text: str) -> list[list[str]]:
     tokenizer = bert_models.load_tokenizer(Languages.KO)
@@ -93,10 +96,11 @@ if __name__ == "__main__":
         "이 프로젝트는 재미있습니다!",
         "오늘 날씨가 좋네요.",
         "이 Computer는 정말 Nice하군요",
-        "特別한, 존중하는 관계...지금 저와 그런 관계를 이야기하시는 건가요?",
         "응, 고마워. 그 호칭도, 커피 향도 새벽녘에 들려오는 새의 지저귐처럼 가슴에 와닿는구나",
-        "ㅋㅋㅋㅋㅋ"
-        ""
+        "ㅋㅋㅋㅋㅋ",
+        "쟨 이해해도 걘 이해 못할 수도 있어...",
+        "ㅋㅋㅋㅋㅋ아 진짜 개웃곀ㅋㅋㅋㅋㅋ",
+        "푸히힛, 올리쨩 최고!"
     ]
     for sentence in sentences:
         print(sentence)
