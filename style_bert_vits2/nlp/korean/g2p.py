@@ -71,17 +71,33 @@ def g2p(text: str) -> tuple[list[str], list[int], list[int]]:
 
 def __text_to_words(text: str) -> list[list[str]]:
     tokenizer = bert_models.load_tokenizer(Languages.KO)
-    tokens = tokenizer.tokenize(text)
+    encoding = tokenizer(text, return_offsets_mapping=True, add_special_tokens=False)
+    tokens = encoding.tokens()
+    offsets = encoding['offset_mapping']
+
     words = []
     current_word = []
+    # current_offsets = []
 
-    for token in tokens:
-        if token.startswith('##'):
-            current_word.append(token[2:])  # Remove '##'
+    for token, (start, end) in zip(tokens, offsets):
+        # Handle [UNK] tokens
+        if token == '[UNK]':
+            # If there's an ongoing word, append it to the words list
+            if current_word:
+                words.append(current_word)
+                current_word = []
+            # Append the original text corresponding to the [UNK] token as a list
+            original_text = text[start:end]
+            words.append([original_text])
+        # Handle subword tokens
+        elif token.startswith('##'):
+            current_word.append(token[2:])
+            # current_offsets.append((start, end))
         else:
             if current_word:
                 words.append(current_word)
             current_word = [token]
+            # current_offsets = [(start, end)]
 
     if current_word:
         words.append(current_word)
@@ -89,6 +105,7 @@ def __text_to_words(text: str) -> list[list[str]]:
     return words
 
 if __name__ == "__main__":
+    from style_bert_vits2.nlp.korean.normalizer import normalize_text
     sentences = [
         "안녕하세요. 저는 인공지능입니다.",
         "이 문장은 테스트용입니다.",
@@ -103,6 +120,7 @@ if __name__ == "__main__":
         "푸히힛, 올리쨩 최고!"
     ]
     for sentence in sentences:
+        sentence = normalize_text(sentence)
         print(sentence)
         words = __text_to_words(sentence)
         print(f'Tokenized Words: {words}')
