@@ -21,8 +21,12 @@ from style_bert_vits2.constants import (
 from style_bert_vits2.logging import logger
 from style_bert_vits2.models.hyper_parameters import HyperParameters
 from style_bert_vits2.models.infer import get_net_g, infer
-from style_bert_vits2.models.models import SynthesizerTrn
-from style_bert_vits2.models.models_jp_extra import (
+# from style_bert_vits2.models.models import SynthesizerTrn
+# from style_bert_vits2.models.models_jp_extra import (
+#     SynthesizerTrn as SynthesizerTrnJPExtra,
+# )
+from style_bert_vits2.models.models_ko import SynthesizerTrn
+from style_bert_vits2.models.models_ko_extra import (
     SynthesizerTrn as SynthesizerTrnJPExtra,
 )
 from style_bert_vits2.voice import adjust_voice
@@ -259,6 +263,10 @@ class TTSModel:
         if language != "JP" and self.hyper_parameters.version.endswith("JP-Extra"):
             raise ValueError(
                 "The model is trained with JP-Extra, but the language is not JP"
+            )
+        if language not in  ["JP", "KO"] and self.hyper_parameters.version.endswith("KO-Extra"):
+            raise ValueError(
+                "The model is trained with KO-Extra, but the language is not KO"
             )
         if reference_audio_path == "":
             reference_audio_path = None

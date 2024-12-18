@@ -186,6 +186,10 @@ class TextAudioSpeakerLoader(torch.utils.data.Dataset):
             bert = torch.zeros(1024, len(phone))
             ja_bert = torch.zeros(1024, len(phone))
             en_bert = bert_ori
+        elif language_str == "KO":
+            bert = torch.zeros(1024, len(phone))
+            ja_bert = bert_ori # 일본어 모델인 JP_EXTRA를 BASE모델로 사용하므로, 한국어 BERT feature는 ja_bert로 처리
+            en_bert = torch.zeros(1024, len(phone))
         phone = torch.LongTensor(phone)
         tone = torch.LongTensor(tone)
         language = torch.LongTensor(language)
