@@ -74,7 +74,8 @@ def initialize(
     )
 
     default_config_path = (
-        "configs/config.json" if not use_jp_extra else "configs/config_jp_extra.json"
+        # "configs/config.json" if not use_jp_extra else "configs/config_jp_extra.json"
+        "configs/config.json" if not use_jp_extra else "configs/config_ko_extra.json"
     )
 
     with open(default_config_path, encoding="utf-8") as f:
@@ -109,7 +110,8 @@ def initialize(
             dirs_exist_ok=True,
         )
         shutil.rmtree(model_path)
-    pretrained_dir = Path("pretrained" if not use_jp_extra else "pretrained_jp_extra")
+    # pretrained_dir = Path("pretrained" if not use_jp_extra else "pretrained_jp_extra")
+    pretrained_dir = Path("pretrained" if not use_jp_extra else "pretrained_ko_extra")
     try:
         shutil.copytree(
             src=pretrained_dir,

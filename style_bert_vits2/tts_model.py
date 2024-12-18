@@ -264,7 +264,7 @@ class TTSModel:
             raise ValueError(
                 "The model is trained with JP-Extra, but the language is not JP"
             )
-        if language != "KO" and self.hyper_parameters.version.endswith("KO-Extra"):
+        if language not in  ["JP", "KO"] and self.hyper_parameters.version.endswith("KO-Extra"):
             raise ValueError(
                 "The model is trained with KO-Extra, but the language is not KO"
             )

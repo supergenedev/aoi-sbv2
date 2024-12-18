@@ -7,7 +7,8 @@ from style_bert_vits2.constants import Languages
 from style_bert_vits2.logging import logger
 from style_bert_vits2.models import commons, utils
 from style_bert_vits2.models.hyper_parameters import HyperParameters
-from style_bert_vits2.models.models import SynthesizerTrn
+# from style_bert_vits2.models.models import SynthesizerTrn
+from style_bert_vits2.models.models_ko import SynthesizerTrn
 from style_bert_vits2.models.models_jp_extra import (
     SynthesizerTrn as SynthesizerTrnJPExtra,
 )
@@ -255,7 +256,7 @@ def infer(
     given_phone: Optional[list[str]] = None,
     given_tone: Optional[list[int]] = None,
 ):
-    is_jp_extra = hps.version.endswith("JP-Extra")
+    is_jp_extra = hps.version.endswith("JP-Extra") or hps.version.endswith("KO-Extra")
     bert, ja_bert, en_bert, phones, tones, lang_ids = get_text(
         text,
         language,
